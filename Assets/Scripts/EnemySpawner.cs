@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
     Rigidbody2D playerRB;
 
     public GameObject enemyPrefab;
+    public bool spawn = true;
 
     float spawnrate = 100f;
     float timeSinceSpawn = 100f;
@@ -23,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     void FixedUpdate()
     {
         // check if can spawn
-        if (timeSinceSpawn >= spawnrate)
+        if (timeSinceSpawn >= spawnrate && spawn)
         {
             // spawn a random enemy at random position determined by random radius + random angle
             float spawnRadius = Random.Range(minSpawnRadius, maxSpawnRadius);
