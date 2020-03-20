@@ -72,7 +72,7 @@ public class Starfield : MonoBehaviour
             float left = -size.x / 2f;
             float right = size.x / 2f;
 
-            // if particle crosses boundary, move particle to the other side
+            // if particle crosses boundary, move particle to the other side with random other coordinate
             if (particles[i].position.x < left)
             {
                 Vector2 newPos = new Vector2(right, Random.Range(bottom, top));
