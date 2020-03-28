@@ -7,6 +7,8 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject enemyPrefab;
     public bool spawn = true;
+    public int maxEnemies = 5;
+    int enemyCount;
 
     float spawnrate = 100f;
     float timeSinceSpawn = 100f;
@@ -24,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
     void FixedUpdate()
     {
         // check if can spawn
-        if (timeSinceSpawn >= spawnrate && spawn)
+        if (timeSinceSpawn >= spawnrate && spawn && enemyCount < maxEnemies)
         {
             // spawn a random enemy at random position determined by random radius + random angle
             float spawnRadius = Random.Range(minSpawnRadius, maxSpawnRadius);
@@ -36,12 +38,23 @@ public class EnemySpawner : MonoBehaviour
             offset.y = Mathf.Sin(spawnAngle) * spawnRadius;
 
             // spawn the enemy and reset counter
-            Instantiate(enemyPrefab, playerRB.position + offset, Quaternion.identity);
+            GameObject clone = Instantiate(enemyPrefab, playerRB.position + offset, Quaternion.identity);
             timeSinceSpawn = 0f;
+
+            // Detect when an ennemy gets destroyed
+            DestroyEventEmitter destroyEventEmitter = clone.AddComponent<DestroyEventEmitter>();
+            destroyEventEmitter.OnObjectDestroyedEvent += OnGameObjectDestroyed;
+            enemyCount++;
         }
-        else
+        else if (timeSinceSpawn < spawnrate)
         {
             timeSinceSpawn += 1f;
         }
+    }
+
+    private void OnGameObjectDestroyed(DestroyEventEmitter emitter)
+    {
+        enemyCount--;
+        emitter.OnObjectDestroyedEvent -= OnGameObjectDestroyed;
     }
 }
