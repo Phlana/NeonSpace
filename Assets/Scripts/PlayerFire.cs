@@ -19,7 +19,7 @@ public class PlayerFire : MonoBehaviour
 				timeFromLastShot = 0f;
 			}
 		}
-		else
+		else if (timeFromLastShot < shootSpeed + 1f)
 		{
 			timeFromLastShot += 1f;
 		}
