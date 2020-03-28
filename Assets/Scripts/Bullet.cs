@@ -19,21 +19,22 @@ public class Bullet : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Player"))
         {
-            // gets color of body hit through material
-            Color matColor = collision.GetComponent<Renderer>().material.color;
-            Hit(matColor);
+            // gets material of body hit through material
+            Material mat = collision.GetComponent<Renderer>().material;
+            Hit(mat);
         }
     }
 
-    private void Hit(Color color)
+    private void Hit(Material mat)
     {
         Destroy(gameObject);  // destroys bullet when hit
         // spawning bullet hit effect
         GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
-        // changing the color of hit effect to match whatever hit
+        // changing the material of hit effect to match whatever hit
         ParticleSystem ps = effect.GetComponentInChildren<ParticleSystem>();
-        var psMain = ps.main;
-        psMain.startColor = color;
+        Renderer psRenderer = ps.GetComponent<Renderer>();
+        psRenderer.material = mat;
+
         // destroys effect after 1 second
         Destroy(effect, 1f);
     }
