@@ -17,13 +17,21 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Hit();
+        // gets color of body hit through material
+        Color matColor = collision.GetComponent<Renderer>().material.color;
+        Hit(matColor);
     }
 
-    public void Hit()
+    private void Hit(Color color)
     {
-        Destroy(gameObject);
+        Destroy(gameObject);  // destroys bullet when hit
+        // spawning bullet hit effect
         GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
+        // changing the color of hit effect to match whatever hit
+        ParticleSystem ps = effect.GetComponentInChildren<ParticleSystem>();
+        var psMain = ps.main;
+        psMain.startColor = color;
+        // destroys effect after 1 second
         Destroy(effect, 1f);
     }
 }
