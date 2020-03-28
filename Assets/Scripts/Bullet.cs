@@ -17,9 +17,12 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // gets color of body hit through material
-        Color matColor = collision.GetComponent<Renderer>().material.color;
-        Hit(matColor);
+        if (!collision.gameObject.CompareTag("Player"))
+        {
+            // gets color of body hit through material
+            Color matColor = collision.GetComponent<Renderer>().material.color;
+            Hit(matColor);
+        }
     }
 
     private void Hit(Color color)
