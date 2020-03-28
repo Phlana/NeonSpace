@@ -15,7 +15,7 @@ public class PlayerLogic : MonoBehaviour
         if (collision.collider.CompareTag("Death")) {
             // player is now dead
             Debug.Log("i died i am dead");
-            Destroy(gameObject);
+            //Destroy(gameObject);
             GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
             Destroy(effect, 1f);
         }
