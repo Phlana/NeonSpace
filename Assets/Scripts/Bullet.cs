@@ -28,12 +28,20 @@ public class Bullet : MonoBehaviour
     private void Hit(Material mat)
     {
         Destroy(gameObject);  // destroys bullet when hit
+
         // spawning bullet hit effect
         GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
-        // changing the material of hit effect to match whatever hit
+
+        // changing properties of hit effect to match whatever hit
         ParticleSystem ps = effect.GetComponentInChildren<ParticleSystem>();
+
+        // particle material
         Renderer psRenderer = ps.GetComponent<Renderer>();
         psRenderer.material = mat;
+
+        // particle color for trail inheritance
+        var psMain = ps.main;
+        psMain.startColor = 0.6f * mat.color;
 
         // destroys effect after 1 second
         Destroy(effect, 1f);
